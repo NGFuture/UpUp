@@ -6,11 +6,8 @@ import RootNavigator from './navigators/Root';
 export default function App() {
   return (
     <NavigationContainer>
-      <View style={styles.container}>
-        <RootNavigator />
-        <Text>Hello</Text>
-        <StatusBar style="auto" />
-      </View>
+      <RootNavigator />
+      {/* <StatusBar style="auto" /> */}
     </NavigationContainer>
   );
 }
