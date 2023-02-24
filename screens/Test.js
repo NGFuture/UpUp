@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import Question from "../components/questions/Question";
+import { styles } from "../styles";
 
-const Test = ({navigation, route}) => {
+const Test = ({ navigation, route }) => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const getQuiz = async (id) => {
@@ -26,14 +28,15 @@ const Test = ({navigation, route}) => {
     useEffect(() => {
         getQuiz(route.params.id);
         getQuestions(route.params.id);
-    }, []);    
+    }, []);
     return (
-    <View>
-        {quiz && <>
-        <Text>{quiz.title}</Text>
-        <Text>{questions.length}</Text>
-        </>}
-    </View>
-)};
+        <View>
+            {quiz && <View>
+                <Text>{quiz.title}</Text>
+                <View>{questions.map((item) => <Question key={item._id} question={item}/>)}</View>
+            </View>}
+        </View>
+    )
+};
 
 export default Test;
