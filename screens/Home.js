@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
+import { API_URL } from "../config/url";
 
 const Home = ({navigation}) => {
     const [quizzes, setQuizzes] = useState([]);
@@ -8,7 +9,7 @@ const Home = ({navigation}) => {
 
     const getQuizzes = async () => {
         try {
-            const response = await fetch('http://192.168.1.72:3010/quizzes');
+            const response = await fetch(`${API_URL}/quizzes`);
             const json = await response.json();
             setQuizzes(json.items);
         } catch (error) {

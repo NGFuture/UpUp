@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Question from "../components/questions/Question";
+import { API_URL } from "../config/url";
 import { styles } from "../styles";
 
 const Test = ({ navigation, route }) => {
@@ -8,7 +9,7 @@ const Test = ({ navigation, route }) => {
     const [questions, setQuestions] = useState([]);
     const getQuiz = async (id) => {
         try {
-            const response = await fetch(`http://192.168.1.72:3010/quizzes/${id}`);
+            const response = await fetch(`${API_URL}/quizzes/${id}`);
             const json = await response.json();
             setQuiz(json.item);
         } catch (error) {
@@ -17,7 +18,7 @@ const Test = ({ navigation, route }) => {
     };
     const getQuestions = async (id) => {
         try {
-            const response = await fetch(`http://192.168.1.72:3010/questions?quizId=${id}`);
+            const response = await fetch(`${API_URL}/questions?quizId=${id}`);
             const json = await response.json();
             setQuestions(json.items);
         } catch (error) {
