@@ -7,6 +7,7 @@ import { styles } from "../styles";
 const Test = ({ navigation, route }) => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const [userChoices, setUserChoices] = useState({});
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -34,8 +35,16 @@ const Test = ({ navigation, route }) => {
         <View>
             {quiz && <View>
                 <Text>{quiz.title}</Text>
-                <View>{questions.map((item) => <Question key={item._id} question={item}/>)}</View>
+                <View>
+                    {questions.map((item) => <Question
+                        key={item._id}
+                        question={item}
+                        userChoice={userChoices[item._id]}
+                        setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
+                    />)}
+                </View>
             </View>}
+
         </View>
     )
 };

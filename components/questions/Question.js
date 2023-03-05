@@ -1,16 +1,27 @@
 import { Text, View } from "react-native";
+import { RadioButton } from "react-native-paper";
 import { styles } from "../../styles";
+import { useState } from "react";
 
-const Question = ({question}) => {
-    const {text, options} = question;
+const Question = ({ question, userChoice, setUserChoice }) => {
+    const { text, options } = question;
     return (
         <View>
             <Text style={styles.header2}>{text}</Text>
-            {options.map((item) => {
-                return (
-                    <Text key={item.id}>{item.text}</Text>
-                );
-            })}
+            <View>
+                <RadioButton.Group onValueChange={setUserChoice} value={userChoice} >
+                {options.map((item) => {
+                    return (
+                            <RadioButton.Item
+                                label={item.text}
+                                value={item.id}
+                                key={item.id}
+                                position='leading'
+                            />
+                    );
+                })}
+                </RadioButton.Group>
+            </View>
         </View>
     );
 };
