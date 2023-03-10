@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
+import { useAuthContext } from "../components/AuthContext";
 import { API_URL } from "../config/url";
 
 const Home = ({navigation}) => {
+    const { user } = useAuthContext();
     const [quizzes, setQuizzes] = useState([]);
     const quiz = quizzes[0] || null;
-    console.log(quiz);
+    console.log(user);
 
     const getQuizzes = async () => {
         try {

@@ -3,16 +3,18 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { MainLayout } from './components/layouts/MainLayout';
 import RootNavigator from './navigators/Root';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContextProvider } from './components/AuthContext';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MainLayout>
-        <RootNavigator />
-        <StatusBar style="auto" />
-      </MainLayout>
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <MainLayout>
+          <RootNavigator />
+          <StatusBar style="auto" />
+        </MainLayout>
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 
