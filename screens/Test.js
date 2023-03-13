@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
+import { useAuthContext } from "../components/AuthContext";
 import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
@@ -9,6 +10,7 @@ const Test = ({ navigation, route }) => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
+    const {user} = useAuthContext(); 
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -33,6 +35,7 @@ const Test = ({ navigation, route }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authuserid': user.id,
                 },
                 body: JSON.stringify({
                     quizId,
@@ -41,9 +44,9 @@ const Test = ({ navigation, route }) => {
             });
             const data = await response.json();
             if (data.item) {
-                alert(data.item.percentage);
+                alert(data.item.results_percentage);
             } else {
-                alert("Result not saved")
+                alert(data?.message || "Result not saved")
             }
         } catch (error) {
             console.error(error);
