@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import { useAuthContext } from "../components/AuthContext";
 import Question from "../components/questions/Question";
@@ -10,7 +10,7 @@ const Test = ({ navigation, route }) => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
-    const {user} = useAuthContext(); 
+    const { user } = useAuthContext();
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -22,14 +22,14 @@ const Test = ({ navigation, route }) => {
     };
     const getQuestions = async (id) => {
         try {
-            const response = await fetch(`${API_URL}/questions?quizId=${id}`);
+            const response = await fetch(`${API_URL}/questions?quizId=${id}&skip=0&limit=5`);
             const json = await response.json();
             setQuestions(json.items);
         } catch (error) {
             console.error(error);
         }
     };
-    const  sendResult = async (quizId, userChoices) => {
+    const sendResult = async (quizId, userChoices) => {
         try {
             const response = await fetch(`${API_URL}/results`, {
                 method: 'POST',
@@ -59,13 +59,13 @@ const Test = ({ navigation, route }) => {
             // alert('pressed');
             sendResult(quiz._id, userChoices);
         } else {
-            const notAnswered = questions.map((item, index)=>{
-                if (userChoices.hasOwnProperty(item._id)===false) return index+1;
+            const notAnswered = questions.map((item, index) => {
+                if (userChoices.hasOwnProperty(item._id) === false) return index + 1;
             }).filter(Boolean);
             let singleOrPlural = 'question #';
-            if (notAnswered.length>1) {singleOrPlural = 'questions ##'};
+            if (notAnswered.length > 1) { singleOrPlural = 'questions ##' };
             alert(`Please, answer ${singleOrPlural} ${notAnswered}`);
-        }   
+        }
     };
 
     useEffect(() => {
@@ -76,7 +76,22 @@ const Test = ({ navigation, route }) => {
         <View>
             {quiz && <View>
                 <Text>{quiz.title}</Text>
-                <View>
+                <View >
+                    <FlatList
+                        style={{ height: 600 }}
+                        data={questions}
+                        renderItem={({ item, index }) => <Question
+                            question={item}
+                            index={index}
+                            userChoice={userChoices[item._id]}
+                            setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
+                        />}
+                        keyExtractor={(item) => item._id}
+                        // onEndReached={fetchMoreData}
+                        // onEndReachedThreshold={0.2}
+                    />
+                </View>
+                {/* <View>
                     {questions.map((item, index) => <Question
                         key={item._id}
                         question={item}
@@ -84,7 +99,7 @@ const Test = ({ navigation, route }) => {
                         userChoice={userChoices[item._id]}
                         setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
                     />)}
-                </View>
+                </View> */}
                 <Button mode='elevated' onPress={onPress}>Submit</Button>
             </View>}
 

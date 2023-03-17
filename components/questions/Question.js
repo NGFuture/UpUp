@@ -4,7 +4,7 @@ import { styles } from "../../styles";
 import { useState } from "react";
 
 const Question = ({ question, index, userChoice, setUserChoice }) => {
-    const { text, options } = question;
+    const { text, options = [] } = question;
     return (
         <View>
             <Text style={styles.header2}>{`${index+1}. ${text}`}</Text>
