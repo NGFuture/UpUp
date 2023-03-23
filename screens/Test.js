@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import { useAuthContext } from "../components/AuthContext";
@@ -6,10 +6,14 @@ import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
 
+const limit = 5;
+
 const Test = ({ navigation, route }) => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
+    const [page, setPage] = useState(1);
+    const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
     const getQuiz = async (id) => {
         try {
@@ -22,9 +26,13 @@ const Test = ({ navigation, route }) => {
     };
     const getQuestions = async (id) => {
         try {
-            const response = await fetch(`${API_URL}/questions?quizId=${id}&skip=0&limit=5`);
-            const json = await response.json();
-            setQuestions(json.items);
+            const response = await fetch(`${API_URL}/questions?quizId=${id}&skip=${limit * (page - 1)}&limit=${limit}`);
+            const data = await response.json();
+            console.log(data);
+            setQuestions((prev) => [...prev, ...data.items]);
+            if (data.count === questions.length+data.items.length) {
+                setBtnVisible(true);
+            };
         } catch (error) {
             console.error(error);
         }
@@ -55,8 +63,6 @@ const Test = ({ navigation, route }) => {
 
     const onPress = () => {
         if (Object.values(userChoices).length === questions.length) {
-            // console.log(quiz);
-            // alert('pressed');
             sendResult(quiz._id, userChoices);
         } else {
             const notAnswered = questions.map((item, index) => {
@@ -67,11 +73,19 @@ const Test = ({ navigation, route }) => {
             alert(`Please, answer ${singleOrPlural} ${notAnswered}`);
         }
     };
+    const renderItem = useCallback(({ item, index }) => <Question
+        question={item}
+        index={index}
+        userChoice={userChoices[item._id]}
+        setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
+    />, [userChoices]);
 
     useEffect(() => {
         getQuiz(route.params.id);
-        getQuestions(route.params.id);
     }, []);
+    useEffect(() => {
+        getQuestions(route.params.id);
+    }, [page]);
     return (
         <View>
             {quiz && <View>
@@ -80,15 +94,10 @@ const Test = ({ navigation, route }) => {
                     <FlatList
                         style={{ height: 600 }}
                         data={questions}
-                        renderItem={({ item, index }) => <Question
-                            question={item}
-                            index={index}
-                            userChoice={userChoices[item._id]}
-                            setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
-                        />}
+                        renderItem={renderItem}
                         keyExtractor={(item) => item._id}
-                        // onEndReached={fetchMoreData}
-                        // onEndReachedThreshold={0.2}
+                        onEndReached={() => setPage(page + 1)}
+                        onEndReachedThreshold={0.4}
                     />
                 </View>
                 {/* <View>
@@ -100,7 +109,7 @@ const Test = ({ navigation, route }) => {
                         setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
                     />)}
                 </View> */}
-                <Button mode='elevated' onPress={onPress}>Submit</Button>
+                {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
             </View>}
 
         </View>
