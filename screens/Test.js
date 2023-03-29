@@ -52,7 +52,8 @@ const Test = ({ navigation, route }) => {
             });
             const data = await response.json();
             if (data.item) {
-                alert(data.item.results_percentage);
+                alert("great job, look what is next");
+                navigation.navigate('Home');               
             } else {
                 alert(data?.message || "Result not saved")
             }

@@ -1,38 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Text, View } from "react-native";
 import { useAuthContext } from "../components/AuthContext";
-import { API_URL } from "../config/url";
+import { useData } from "../components/DataContext";
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
     const { user } = useAuthContext();
-    const [quizzes, setQuizzes] = useState([]);
-    const quiz = quizzes[0] || null;
+    const {quizSet, results, getQuizSet} = useData();
     console.log(user);
 
-    const getQuizzes = async () => {
-        try {
-            const response = await fetch(`${API_URL}/quizzes`);
-            const json = await response.json();
-            setQuizzes(json.items);
-        } catch (error) {
-            console.error(error);
-        }
+    const nextQuizId = useMemo(() => {
+        if (!quizSet) { return null }
+        const dResults = results.reduce((prev, next) => {
+            return { ...prev, [next.quiz_id]: next }
+        }, {});
+        return quizSet.quiz_ids.find((quizId) => !dResults[quizId]);
+    }, [results, quizSet]);
+
+    const handleOnPressTest = () => {
+        navigation.navigate('Test', {
+            id: nextQuizId,
+        });
+    };
+
+    const handeOnPressResults = () => {
+        navigation.navigate('Results');
     };
 
     useEffect(() => {
-        getQuizzes();
+        getQuizSet();
     }, []);
 
-    const handleOnPress = () => {
-        navigation.navigate('Test', {
-            id: quiz._id,
-        });
-    };
 
     return (
         <View>
             <Text>I am home </Text>
-            {quiz && <Button title = 'Next' onPress={handleOnPress}/>}
+            <Button title='Next' onPress={handleOnPressTest} disabled={!nextQuizId} />
+            <Button title='Results' disabled={!results.length} onPress={handeOnPressResults} />
         </View>
     )
 };
