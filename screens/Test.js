@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import { useAuthContext } from "../components/AuthContext";
+import { useData } from "../components/DataContext";
 import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
@@ -15,6 +16,7 @@ const Test = ({ navigation, route }) => {
     const [page, setPage] = useState(1);
     const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
+    const {getQuizSet} = useData();
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -52,6 +54,7 @@ const Test = ({ navigation, route }) => {
             });
             const data = await response.json();
             if (data.item) {
+                getQuizSet();
                 alert("great job, look what is next");
                 navigation.navigate('Home');               
             } else {

@@ -36,6 +36,7 @@ const Home = ({ navigation }) => {
             <Text>I am home </Text>
             <Button title='Next' onPress={handleOnPressTest} disabled={!nextQuizId} />
             <Button title='Results' disabled={!results.length} onPress={handeOnPressResults} />
+            {quizSet && <Text>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
         </View>
     )
 };
