@@ -3,13 +3,13 @@ import { FlatList } from "react-native";
 import { useData } from "../components/DataContext";
 
 const Results = () => {
-    const { results, finishedQuizzes } = useData();
+    const { results, dictionaryFinishedQuizzes } = useData();
     const renderItem = ({item}) => {
-        const quiz = finishedQuizzes.find((q) => q._id === item.quiz_id);
+        const quiz = dictionaryFinishedQuizzes[item.quiz_id];
+        // finishedQuizzes.find((q) => q._id === item.quiz_id);
         return (
         <View>
-                        <Text>Hi</Text>
-            <Text>{quiz.title}</Text>
+            <Text>{quiz?.title}</Text>
             <Text>{item.results_percentage}</Text>
         </View>
     )};

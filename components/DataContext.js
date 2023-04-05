@@ -9,6 +9,7 @@ const initialStore = {
     quizSet: null,
     results: [],
     finishedQuizzes: [],
+    dictionaryFinishedQuizzes: {},
 };
 const reducer = (store, action) => {
     switch (action.type) {
@@ -25,9 +26,14 @@ const reducer = (store, action) => {
             }
         }
         case "UPDATE_FINISHED_QUIZZES": {
+            // const d = {};
+            // for (const quiz of action.payload) {
+            //     d[quiz._id] = quiz;
+            // };
             return {
                 ...store,
                 finishedQuizzes: action.payload,
+                dictionaryFinishedQuizzes: action.payload.reduce((d, quiz)=>({...d, [quiz._id]: quiz}), {}),
             }
         }
     } 
@@ -36,9 +42,6 @@ const reducer = (store, action) => {
 export const DataProvider = ({children}) => {
     const { user } = useAuthContext();
     const [ store, dispatch ] = useReducer(reducer, initialStore);
-    const [quizSet, setQuizSet] = useState(null);
-    // const [results, setResults] = useState([]);
-    const [finishedQuizzes, setFinishedQuizzes] = useState([]);
     const getQuizSet = async () => {
         try {
             const response = await fetch(`${API_URL}/quiz-sets/my`, {
@@ -49,13 +52,18 @@ export const DataProvider = ({children}) => {
             });
             const data = await response.json();
             if (data.item) {
-                setQuizSet(data.item);
-                // setResults(data.results);
+                dispatch ({
+                    type: "UPDATE_QUIZ_SET",
+                    payload: data.item,
+                });
                 dispatch({
                     type: "UPDATE_RESULTS",
                     payload: data.results,
                 });
-                setFinishedQuizzes(data.finishedQuizzes);
+                dispatch({
+                    type:"UPDATE_FINISHED_QUIZZES",
+                    payload: data.finishedQuizzes,
+                });
             } else console.log('error');
         } catch (error) {
             console.error(error);
@@ -63,7 +71,7 @@ export const DataProvider = ({children}) => {
     };
 
 
-    const value = {quizSet, results: store.results, getQuizSet, finishedQuizzes}
+    const value = {quizSet: store.quizSet, results: store.results, getQuizSet, dictionaryFinishedQuizzes: store.dictionaryFinishedQuizzes}
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>
 };
 export const useData = () => useContext(DataContext);
