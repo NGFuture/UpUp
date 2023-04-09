@@ -3,8 +3,13 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { API_URL } from "../config/url";
 
 const AuthContext = createContext();
+// const clearAsyncStorage = async() => {
+//     await AsyncStorage.clear();
+// };
+// clearAsyncStorage();
 const getUserFromStorage = async () => {
     const user = await AsyncStorage.getItem('user');
+    console.log({user});
     return user ? JSON.parse(user) : null;
 };
 const setUserIntoStorage = async (user) => {
