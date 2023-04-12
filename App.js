@@ -9,10 +9,8 @@ import { DataProvider } from './components/DataContext';
 const PrivateScreens = () => {
   return (
     <NavigationContainer>
-      <MainLayout>
         <RootNavigator />
         <StatusBar style="auto" />
-      </MainLayout>
     </NavigationContainer>
   );
 };
