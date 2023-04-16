@@ -10,7 +10,7 @@ const PrivateScreens = () => {
   return (
     <NavigationContainer>
         <RootNavigator />
-        <StatusBar style="auto" />
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 };

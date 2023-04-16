@@ -6,6 +6,7 @@ import { useData } from "../components/DataContext";
 import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
+import { MainLayout } from "../components/layouts/MainLayout";
 
 const limit = 5;
 
@@ -16,7 +17,7 @@ const Test = ({ navigation, route }) => {
     const [page, setPage] = useState(1);
     const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
-    const {getQuizSet} = useData();
+    const { getQuizSet } = useData();
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -32,7 +33,7 @@ const Test = ({ navigation, route }) => {
             const data = await response.json();
             console.log(data);
             setQuestions((prev) => [...prev, ...data.items]);
-            if (data.count === questions.length+data.items.length) {
+            if (data.count === questions.length + data.items.length) {
                 setBtnVisible(true);
             };
         } catch (error) {
@@ -56,7 +57,7 @@ const Test = ({ navigation, route }) => {
             if (data.item) {
                 getQuizSet();
                 alert("great job, look what is next");
-                navigation.navigate('Home');               
+                navigation.navigate('Home');
             } else {
                 alert(data?.message || "Result not saved")
             }
@@ -91,7 +92,7 @@ const Test = ({ navigation, route }) => {
         getQuestions(route.params.id);
     }, [page]);
     return (
-        <View>
+        <MainLayout>
             {quiz && <View>
                 <Text>{quiz.title}</Text>
                 <View >
@@ -116,7 +117,7 @@ const Test = ({ navigation, route }) => {
                 {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
             </View>}
 
-        </View>
+        </MainLayout>
     )
 };
 

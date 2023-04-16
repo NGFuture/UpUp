@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button, Text, View } from "react-native";
 import { useAuthContext } from "../components/AuthContext";
 import { useData } from "../components/DataContext";
+import { MainLayout } from "../components/layouts/MainLayout";
 
 const Home = ({ navigation }) => {
     const { user } = useAuthContext();
@@ -32,12 +33,10 @@ const Home = ({ navigation }) => {
 
 
     return (
-        <View>
-            <Text>I am home </Text>
+        <MainLayout>
             <Button title='Next' onPress={handleOnPressTest} disabled={!nextQuizId} />
             <Button title='Results' disabled={!results.length} onPress={handeOnPressResults} />
-            {quizSet && <Text>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
-        </View>
+        </MainLayout>
     )
 };
 export default Home;
