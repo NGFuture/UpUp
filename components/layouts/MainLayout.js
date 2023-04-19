@@ -1,31 +1,29 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useData } from "../DataContext";
-// import { styles } from "../../styles";
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
-  text: {
-    fontSize: 42,
-  },
-});
+import { styles } from "../../styles";
+import { Button, IconButton } from "react-native-paper";
+import homeImage from "../../assets/homeImage.jpg";
+
 export const MainLayout = ({ children }) => {
-  const {quizSet, results} = useData();
+  const { quizSet, results } = useData();
   return (
     <SafeAreaView style={styles.container}>
+      
       <View style={styles.scrollView}>
+      <ImageBackground  style={{height: '100%'}} source={homeImage} >
         {children}
+        </ImageBackground>
       </View>
 
-      <View>
-        {quizSet && <Text>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
+
+      <View style={styles.footer}>
+        <View style={[styles.footerBlock, styles.footerIcon]}>
+          <IconButton style={styles.footerBtn} icon="home" size={30} />
+        </View>
+        <View style={[styles.footerBlock, styles.footerProgress]}>
+          {quizSet && <Text style={[styles.contrastText, styles.mediumText]}>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
+        </View>
       </View>
     </SafeAreaView>
   );
