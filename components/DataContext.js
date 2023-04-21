@@ -10,6 +10,7 @@ const initialStore = {
     results: [],
     finishedQuizzes: [],
     dictionaryFinishedQuizzes: {},
+    inProgress: null,
 };
 const reducer = (store, action) => {
     switch (action.type) {
@@ -33,15 +34,21 @@ const reducer = (store, action) => {
             return {
                 ...store,
                 finishedQuizzes: action.payload,
-                dictionaryFinishedQuizzes: action.payload.reduce((d, quiz)=>({...d, [quiz._id]: quiz}), {}),
+                dictionaryFinishedQuizzes: action.payload.reduce((d, quiz) => ({ ...d, [quiz._id]: quiz }), {}),
             }
         }
-    } 
+        case "SET_IN_PROGRESS": {
+            return {
+                ...store,
+                inProgress: action.payload,
+            }
+        }
+    }
     return store
 };
-export const DataProvider = ({children}) => {
+export const DataProvider = ({ children }) => {
     const { user } = useAuthContext();
-    const [ store, dispatch ] = useReducer(reducer, initialStore);
+    const [store, dispatch] = useReducer(reducer, initialStore);
     const getQuizSet = async () => {
         try {
             const response = await fetch(`${API_URL}/quiz-sets/my`, {
@@ -52,7 +59,7 @@ export const DataProvider = ({children}) => {
             });
             const data = await response.json();
             if (data.item) {
-                dispatch ({
+                dispatch({
                     type: "UPDATE_QUIZ_SET",
                     payload: data.item,
                 });
@@ -61,7 +68,7 @@ export const DataProvider = ({children}) => {
                     payload: data.results,
                 });
                 dispatch({
-                    type:"UPDATE_FINISHED_QUIZZES",
+                    type: "UPDATE_FINISHED_QUIZZES",
                     payload: data.finishedQuizzes,
                 });
             } else console.log('error');
@@ -70,8 +77,17 @@ export const DataProvider = ({children}) => {
         }
     };
 
+    const setInProgress = (payload) => dispatch({ type: "SET_IN_PROGRESS", payload });
 
-    const value = {quizSet: store.quizSet, results: store.results, getQuizSet, dictionaryFinishedQuizzes: store.dictionaryFinishedQuizzes}
+
+    const value = {
+        quizSet: store.quizSet,
+        results: store.results,
+        getQuizSet,
+        dictionaryFinishedQuizzes: store.dictionaryFinishedQuizzes,
+        inProgress: store.inProgress,
+        setInProgress
+    }
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>
 };
 export const useData = () => useContext(DataContext);

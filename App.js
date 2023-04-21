@@ -2,13 +2,13 @@ import { NavigationContainer, InitialState } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { MainLayout } from './components/layouts/MainLayout';
-import RootNavigator from './navigators/Root';
+import RootNavigator, { navigationRef } from './navigators/Root';
 import { AuthContextProvider, useAuthContext } from './components/AuthContext';
 import { DataProvider } from './components/DataContext';
 
 const PrivateScreens = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
         <RootNavigator />
       <StatusBar style="auto" />
     </NavigationContainer>

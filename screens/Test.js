@@ -17,7 +17,7 @@ const Test = ({ navigation, route }) => {
     const [page, setPage] = useState(1);
     const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
-    const { getQuizSet } = useData();
+    const { getQuizSet, setInProgress } = useData();
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -57,6 +57,7 @@ const Test = ({ navigation, route }) => {
             if (data.item) {
                 getQuizSet();
                 alert("great job, look what is next");
+                setInProgress(null);
                 navigation.navigate('Home');
             } else {
                 alert(data?.message || "Result not saved")
@@ -87,12 +88,13 @@ const Test = ({ navigation, route }) => {
 
     useEffect(() => {
         getQuiz(route.params.id);
+        setInProgress('If you go to home, progress is not saved');
     }, []);
     useEffect(() => {
         getQuestions(route.params.id);
     }, [page]);
     return (
-        <MainLayout>
+        <>
             {quiz && <View>
                 <Text>{quiz.title}</Text>
                 <View >
@@ -117,7 +119,7 @@ const Test = ({ navigation, route }) => {
                 {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
             </View>}
 
-        </MainLayout>
+        </>
     )
 };
 

@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 import { useData } from "../components/DataContext";
 import { MainLayout } from "../components/layouts/MainLayout";
 
-const Results = () => {
+const Results = ({navigation}) => {
     const { results, dictionaryFinishedQuizzes } = useData();
     const renderItem = ({item}) => {
         const quiz = dictionaryFinishedQuizzes[item.quiz_id];
@@ -15,13 +15,13 @@ const Results = () => {
         </View>
     )};
     return (
-        <MainLayout>
+        <>
             <FlatList
                 data={results}
                 renderItem={renderItem}
                 keyExtractor={(item) => item._id}
             />
-        </MainLayout>
+        </>
     )
 };
 export default Results;

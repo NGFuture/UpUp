@@ -40,6 +40,15 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    //header
+    header: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: 'center',
+    },
+    logo: {
+        height: 40,
+    },
 
     //common styles
     contrastText: {
