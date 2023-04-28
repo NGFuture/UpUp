@@ -15,39 +15,27 @@ export const navigationRef = createNavigationContainerRef();
 const RootNavigator = () => {
     return (
         <MainLayout navigation={navigationRef}>
-            <RootStack.Navigator initialRouteName="Home" 
-            screenOptions={({ navigation }) => {
-                return {
-                    header: ({ navigation, route, options, back }) => {
-                        // const title = getHeaderTitle(options, route.name);
-                        const title = "I am title";
-                        return (
-                            <Appbar.Header elevated>
-                                {back && (
-                                    <Appbar.BackAction onPress={() => navigation.goBack()} />
-                                )}
-                                {/* // : (navigation).openDrawer ? (
-                                    // <Appbar.Action
-                                    //     icon="menu"
-                                    //     isLeading
-                                    //     onPress={() =>
-                                    //         (
-                                    //             navigation
-                                    //         ).openDrawer()
-                                    //     }
-                                    // />
-                                //     <View>
-                                //         <Text>LOGO</Text>
-                                //     </View>
-                                // ) : null} */}
-                                {/* <Appbar.Content><Text>LOGO</Text></Appbar.Content> */}
-                                <View style={styles.header}><Image source={logo1} style={styles.logo}/></View>
-                            </Appbar.Header>
-                        );
-                    },
+            <RootStack.Navigator initialRouteName="Home"
+                screenOptions={({ navigation }) => {
+                    return {
+                        header: ({ navigation, route, options, back }) => {
 
-                };
-            }}
+                            return (
+                                <Appbar.Header elevated>
+                                    <View style={styles.headerIcon}>{back && (
+                                        <Appbar.BackAction onPress={() => navigation.goBack()} />
+                                    )}
+                                    </View>
+                                    <View style={styles.header}><Image source={logo1} style={styles.logo} /></View>
+                                    <View style={styles.headerIcon} />
+
+
+                                </Appbar.Header>
+                            );
+                        },
+
+                    };
+                }}
             >
 
 

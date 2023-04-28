@@ -49,6 +49,9 @@ export const styles = StyleSheet.create({
     logo: {
         height: 40,
     },
+    headerIcon: {
+        width: 70,
+    },
 
     //common styles
     contrastText: {

@@ -95,11 +95,11 @@ const Test = ({ navigation, route }) => {
     }, [page]);
     return (
         <>
-            {quiz && <View>
+            {quiz && <View >
                 <Text>{quiz.title}</Text>
                 <View >
                     <FlatList
-                        style={{ height: 600 }}
+                    style={{ height: 550 }}
                         data={questions}
                         renderItem={renderItem}
                         keyExtractor={(item) => item._id}
@@ -107,16 +107,9 @@ const Test = ({ navigation, route }) => {
                         onEndReachedThreshold={0.4}
                     />
                 </View>
-                {/* <View>
-                    {questions.map((item, index) => <Question
-                        key={item._id}
-                        question={item}
-                        index={index}
-                        userChoice={userChoices[item._id]}
-                        setUserChoice={(value) => setUserChoices({ ...userChoices, [item._id]: value })}
-                    />)}
-                </View> */}
-                {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
+
+                    {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
+
             </View>}
 
         </>
