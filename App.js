@@ -5,11 +5,15 @@ import { MainLayout } from './components/layouts/MainLayout';
 import RootNavigator, { navigationRef } from './navigators/Root';
 import { AuthContextProvider, useAuthContext } from './components/AuthContext';
 import { DataProvider } from './components/DataContext';
+import {
+  MD3LightTheme as DefaultTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 
 const PrivateScreens = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-        <RootNavigator />
+      <RootNavigator />
       <StatusBar style="auto" />
     </NavigationContainer>
   );
@@ -27,11 +31,21 @@ const ScreensContainer = () => {
 
 export default function App() {
   return (
-    <AuthContextProvider>
-      <DataProvider>
-        <ScreensContainer />
-      </DataProvider>
-    </AuthContextProvider>
+    <PaperProvider theme={{
+      ...DefaultTheme,
+      colors: {
+        ...DefaultTheme.colors,
+        primary: "#e64a19", //orange
+        secondary: "#0097a7", // blue
+        tertiary: "#388e3c", //green
+      },
+    }}>
+      <AuthContextProvider>
+        <DataProvider>
+          <ScreensContainer />
+        </DataProvider>
+      </AuthContextProvider>
+    </PaperProvider>
   );
 }
 

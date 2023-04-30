@@ -95,9 +95,9 @@ const Test = ({ navigation, route }) => {
     }, [page]);
     return (
         <>
-            {quiz && <View >
+            {quiz && <View style={{display: "flex", flex: 1}}>
                 <Text>{quiz.title}</Text>
-                <View >
+                <View key="1" style={{flex: 1,}}>
                     <FlatList
                     style={{ height: 550 }}
                         data={questions}
@@ -108,7 +108,10 @@ const Test = ({ navigation, route }) => {
                     />
                 </View>
 
-                    {btnVisible && <Button mode='elevated' onPress={onPress}>Submit</Button>}
+                    {!btnVisible &&
+                    <View key="2" style={{padding: 10}}>
+                        <Button mode='elevated' onPress={onPress} >Submit</Button>
+                    </View> }
 
             </View>}
 
