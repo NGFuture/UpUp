@@ -14,19 +14,17 @@ export const MainLayout = ({ children, navigation }) => {
 
   const onPress = () => {
     if (inProgress) {
-      
       showDialog();
+    } else {
+      navigation.navigate("Home");
     };
   }
   return (
     <SafeAreaView style={styles.container}>
 
       <View style={styles.scrollView}>
-
         {children}
-
       </View>
-
 
       <View style={styles.footer}>
         <View style={[styles.footerBlock, styles.footerIcon]}>
