@@ -1,0 +1,1 @@
+ npm i @expo/webpack-config @react-native-async-storage/async-storage @react-navigation/native @react-navigation/native-stack expo expo-status-bar react react-dom react-native react-native-paper react-native-safe-area-context react-native-screens react-native-vector-icons react-native-web @babel/core

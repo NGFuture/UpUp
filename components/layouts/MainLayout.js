@@ -4,6 +4,7 @@ import { useData } from "../DataContext";
 import { styles } from "../../styles";
 import { Button, IconButton, Dialog, Portal, Text } from "react-native-paper";
 import { useState } from "react";
+import DialogModal from "./DialogModal";
 
 export const MainLayout = ({ children, navigation }) => {
   const { quizSet, results, inProgress, setInProgress } = useData();
@@ -34,24 +35,16 @@ export const MainLayout = ({ children, navigation }) => {
           {quizSet && <Text style={[styles.contrastText, styles.mediumText]}>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
         </View>
       </View>
-      <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Attention</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">{inProgress}</Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={hideDialog}>Cancel</Button>
-            <Button onPress={() => {
-              setInProgress(null);
-              hideDialog();
-              navigation.navigate('Home')
-            }}>
-              Ok
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      <DialogModal
+        visible={visible}
+        hideDialog={hideDialog}
+        description={inProgress}
+        confirm={() => {
+          setInProgress(null);
+          hideDialog();
+          navigation.navigate('Home')
+        }}
+      />
     </SafeAreaView>
   );
 };

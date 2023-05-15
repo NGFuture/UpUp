@@ -7,6 +7,7 @@ import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
 import { MainLayout } from "../components/layouts/MainLayout";
+import DialogModal from "../components/layouts/DialogModal";
 
 const limit = 5;
 
@@ -15,9 +16,28 @@ const Test = ({ navigation, route }) => {
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
     const [page, setPage] = useState(1);
-    const [btnVisible, setBtnVisible] = useState(false);
+    // const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
     const { getQuizSet, setInProgress } = useData();
+    const [alertInfo, setAlertInfo] = useState({
+        message: '',
+        callback: ()=>{},
+        open: false,
+    });
+    const closeAlert = () => {
+        setAlertInfo({
+            message: '',
+            callback: ()=>{},
+            open: false,
+        })
+    };
+    const openAlert = (message, callback=()=>{closeAlert()}) => {
+        setAlertInfo({
+            message: message,
+            callback: callback,
+            open: true,
+        })
+    };
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -33,9 +53,9 @@ const Test = ({ navigation, route }) => {
             const data = await response.json();
             console.log(data);
             setQuestions((prev) => [...prev, ...data.items]);
-            if (data.count === questions.length + data.items.length) {
-                setBtnVisible(true);
-            };
+            // if (data.count === questions.length + data.items.length) {
+            //     setBtnVisible(true);
+            // };
         } catch (error) {
             console.error(error);
         }
@@ -56,11 +76,12 @@ const Test = ({ navigation, route }) => {
             const data = await response.json();
             if (data.item) {
                 getQuizSet();
-                alert("great job, look what is next");
-                setInProgress(null);
-                navigation.navigate('Home');
+                openAlert("great job, look what is next", () => {
+                    setInProgress(null);
+                    navigation.navigate('Home');
+                });
             } else {
-                alert(data?.message || "Result not saved")
+                openAlert(data?.message || "Result not saved")
             }
         } catch (error) {
             console.error(error);
@@ -76,7 +97,7 @@ const Test = ({ navigation, route }) => {
             }).filter(Boolean);
             let singleOrPlural = 'question #';
             if (notAnswered.length > 1) { singleOrPlural = 'questions ##' };
-            alert(`Please, answer ${singleOrPlural} ${notAnswered}`);
+            openAlert(`Please, answer ${singleOrPlural} ${notAnswered}`);
         }
     };
     const renderItem = useCallback(({ item, index }) => <Question
@@ -95,11 +116,11 @@ const Test = ({ navigation, route }) => {
     }, [page]);
     return (
         <>
-            {quiz && <View style={{display: "flex", flex: 1}}>
+            {quiz && <View style={{ display: "flex", flex: 1 }}>
                 <Text>{quiz.title}</Text>
-                <View key="1" style={{flex: 1,}}>
+                <View key="1" style={{ flex: 1, }}>
                     <FlatList
-                    style={{ height: 550 }}
+                        style={{ height: "100%" }}
                         data={questions}
                         renderItem={renderItem}
                         keyExtractor={(item) => item._id}
@@ -108,13 +129,12 @@ const Test = ({ navigation, route }) => {
                     />
                 </View>
 
-                    {!btnVisible &&
-                    <View key="2" style={{padding: 10}}>
-                        <Button mode='elevated' onPress={onPress} >Submit</Button>
-                    </View> }
+                <View key="2" style={{ padding: 10 }}>
+                    <Button mode='elevated' onPress={onPress} >Submit</Button>
+                </View>
 
             </View>}
-
+            <DialogModal visible={alertInfo.open} hideDialog={alertInfo.callback} description={alertInfo.message} confirm={alertInfo.callback} showCancelButton={false} />
         </>
     )
 };
