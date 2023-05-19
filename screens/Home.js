@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import {ImageBackground, Text, View } from "react-native";
+import { useEffect, useMemo } from "react";
+import { ImageBackground, View } from "react-native";
 import { useAuthContext } from "../components/AuthContext";
 import { useData } from "../components/DataContext";
-import { MainLayout } from "../components/layouts/MainLayout";
 import homeImage from "../assets/homeImage.jpg";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
+import { styles } from '../styles';
 
 const Home = ({ navigation }) => {
     const { user } = useAuthContext();
-    const {quizSet, results, getQuizSet} = useData();
+    const { quizSet, results, getQuizSet } = useData();
     console.log(user);
 
     const nextQuizId = useMemo(() => {
@@ -35,9 +35,15 @@ const Home = ({ navigation }) => {
 
 
     return (
-        <ImageBackground  style={{width: '100%', height: '100%'}} source={homeImage} >
-            <Button onPress={handleOnPressTest} disabled={!nextQuizId} mode="contained">Next</Button>
-            <Button disabled={!results.length} onPress={handeOnPressResults} mode="contained">Results</Button>
+        <ImageBackground style={{ width: '100%', height: '100%' }} source={homeImage} >
+            <View style={styles.homeButtonContainer}>
+                <Button  labelStyle={{ fontSize: 25, paddingTop: 12, }} style={styles.homeButton} onPress={handleOnPressTest} disabled={!nextQuizId} mode="contained">
+                        NEXT TEST
+                </Button>
+                <Button labelStyle={{ fontSize: 25, paddingTop: 12, }} style={styles.homeButton} disabled={!results.length} onPress={handeOnPressResults} mode="contained">
+                    RESULTS
+                </Button>
+            </View>
         </ImageBackground>
     )
 };

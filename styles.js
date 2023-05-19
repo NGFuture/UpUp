@@ -47,10 +47,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logo: {
-        height: 40,
+        height: 50,
+        width: 130,
     },
     headerIcon: {
-        width: 70,
+        width: 60,
     },
 
     //common styles
@@ -63,6 +64,22 @@ export const styles = StyleSheet.create({
 
     text: {
         fontSize: 42,
+    },
+    /* Home page */
+    homeButtonContainer: {
+        flex: 1,
+        // justifyContent: top,
+        alignItems: 'center',
+    },
+    homeButton: {
+        display: "flex",
+        width: 220,
+        height: 100,
+        marginTop: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        padding: 0,
     },
 });
 

@@ -5,8 +5,8 @@ import Test from '../screens/Test';
 import { Appbar } from 'react-native-paper';
 import { MainLayout } from '../components/layouts/MainLayout';
 import { createNavigationContainerRef } from '@react-navigation/native';
-import { Image, Text, View } from 'react-native';
-import logo1 from "../assets/logo1.jpg";
+import { Image, View } from 'react-native';
+import logo1 from "../assets/logo.png";
 import { styles } from '../styles';
 
 

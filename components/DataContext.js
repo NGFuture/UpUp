@@ -10,7 +10,6 @@ const initialStore = {
     results: [],
     finishedQuizzes: [],
     dictionaryFinishedQuizzes: {},
-    inProgress: null,
 };
 const reducer = (store, action) => {
     switch (action.type) {
@@ -37,18 +36,35 @@ const reducer = (store, action) => {
                 dictionaryFinishedQuizzes: action.payload.reduce((d, quiz) => ({ ...d, [quiz._id]: quiz }), {}),
             }
         }
-        case "SET_IN_PROGRESS": {
-            return {
-                ...store,
-                inProgress: action.payload,
-            }
-        }
     }
+
     return store
 };
 export const DataProvider = ({ children }) => {
     const { user } = useAuthContext();
     const [store, dispatch] = useReducer(reducer, initialStore);
+    const [alertInfo, setAlertInfo] = useState({
+        message: '',
+        callback: ()=>{},
+        open: false,
+        showCancelButton: false,
+    });
+    const closeAlert = () => {
+        setAlertInfo({
+            message: '',
+            callback: ()=>{},
+            open: false,
+            showCancelButton: false,
+        })
+    };
+    const openAlert = (message, callback=()=>{closeAlert()}, showCancelButton=false) => {
+        setAlertInfo({
+            message: message,
+            callback: callback,
+            open: true,
+            showCancelButton,
+        })
+    };
     const getQuizSet = async () => {
         try {
             const response = await fetch(`${API_URL}/quiz-sets/my`, {
@@ -77,16 +93,14 @@ export const DataProvider = ({ children }) => {
         }
     };
 
-    const setInProgress = (payload) => dispatch({ type: "SET_IN_PROGRESS", payload });
-
-
     const value = {
         quizSet: store.quizSet,
         results: store.results,
         getQuizSet,
         dictionaryFinishedQuizzes: store.dictionaryFinishedQuizzes,
-        inProgress: store.inProgress,
-        setInProgress
+        alertInfo,
+        closeAlert,
+        openAlert,
     }
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>
 };

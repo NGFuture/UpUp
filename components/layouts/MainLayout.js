@@ -7,18 +7,10 @@ import { useState } from "react";
 import DialogModal from "./DialogModal";
 
 export const MainLayout = ({ children, navigation }) => {
-  const { quizSet, results, inProgress, setInProgress } = useData();
-
-  const [visible, setVisible] = useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+  const { quizSet, results, alertInfo, closeAlert } = useData();
 
   const onPress = () => {
-    if (inProgress) {
-      showDialog();
-    } else {
       navigation.navigate("Home");
-    };
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -35,16 +27,7 @@ export const MainLayout = ({ children, navigation }) => {
           {quizSet && <Text style={[styles.contrastText, styles.mediumText]}>Done {results.length}/{quizSet.quiz_ids.length}</Text>}
         </View>
       </View>
-      <DialogModal
-        visible={visible}
-        hideDialog={hideDialog}
-        description={inProgress}
-        confirm={() => {
-          setInProgress(null);
-          hideDialog();
-          navigation.navigate('Home')
-        }}
-      />
+      <DialogModal visible={alertInfo.open} hideDialog={closeAlert} description={alertInfo.message} confirm={alertInfo.callback} showCancelButton={alertInfo.showCancelButton} />
     </SafeAreaView>
   );
 };

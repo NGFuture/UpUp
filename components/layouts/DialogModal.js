@@ -1,7 +1,7 @@
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 
 
-const DialogModal = ({ visible, hideDialog,description, confirm, showCancelButton = true, title = "Attention" }) => {
+const DialogModal = ({ visible, hideDialog, description, confirm, showCancelButton = true, title = "Attention" }) => {
 
     return (
         <Portal>
@@ -12,7 +12,10 @@ const DialogModal = ({ visible, hideDialog,description, confirm, showCancelButto
                 </Dialog.Content>
                 <Dialog.Actions>
                     {showCancelButton && <Button onPress={hideDialog}>Cancel</Button>}
-                    <Button onPress={confirm}>
+                    <Button onPress={(e) => {
+                        confirm(e);
+                        hideDialog(e);
+                    }}>
                         Ok
                     </Button>
                 </Dialog.Actions>

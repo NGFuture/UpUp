@@ -6,8 +6,6 @@ import { useData } from "../components/DataContext";
 import Question from "../components/questions/Question";
 import { API_URL } from "../config/url";
 import { styles } from "../styles";
-import { MainLayout } from "../components/layouts/MainLayout";
-import DialogModal from "../components/layouts/DialogModal";
 
 const limit = 5;
 
@@ -16,28 +14,9 @@ const Test = ({ navigation, route }) => {
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
     const [page, setPage] = useState(1);
-    // const [btnVisible, setBtnVisible] = useState(false);
     const { user } = useAuthContext();
-    const { getQuizSet, setInProgress } = useData();
-    const [alertInfo, setAlertInfo] = useState({
-        message: '',
-        callback: ()=>{},
-        open: false,
-    });
-    const closeAlert = () => {
-        setAlertInfo({
-            message: '',
-            callback: ()=>{},
-            open: false,
-        })
-    };
-    const openAlert = (message, callback=()=>{closeAlert()}) => {
-        setAlertInfo({
-            message: message,
-            callback: callback,
-            open: true,
-        })
-    };
+    const { getQuizSet, openAlert } = useData();
+ 
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -53,9 +32,6 @@ const Test = ({ navigation, route }) => {
             const data = await response.json();
             console.log(data);
             setQuestions((prev) => [...prev, ...data.items]);
-            // if (data.count === questions.length + data.items.length) {
-            //     setBtnVisible(true);
-            // };
         } catch (error) {
             console.error(error);
         }
@@ -77,7 +53,6 @@ const Test = ({ navigation, route }) => {
             if (data.item) {
                 getQuizSet();
                 openAlert("great job, look what is next", () => {
-                    setInProgress(null);
                     navigation.navigate('Home');
                 });
             } else {
@@ -109,11 +84,32 @@ const Test = ({ navigation, route }) => {
 
     useEffect(() => {
         getQuiz(route.params.id);
-        setInProgress('If you go to home, progress is not saved');
     }, []);
     useEffect(() => {
         getQuestions(route.params.id);
     }, [page]);
+
+   useEffect(
+        () =>
+          navigation.addListener('beforeRemove', (e) => {
+            if (false) {
+              // If we don't have unsaved changes, then we don't need to do anything
+              return;
+            }
+    
+            // Prevent default behavior of leaving the screen
+            e.preventDefault();
+    
+            // Prompt the user before leaving the screen
+            openAlert(
+                'You have unsaved changes. Are you sure to discard them and leave the screen?',
+                () => navigation.dispatch(e.data.action),
+                true,              
+            );
+          }),
+        [navigation]
+      );
+
     return (
         <>
             {quiz && <View style={{ display: "flex", flex: 1 }}>
@@ -134,7 +130,7 @@ const Test = ({ navigation, route }) => {
                 </View>
 
             </View>}
-            <DialogModal visible={alertInfo.open} hideDialog={alertInfo.callback} description={alertInfo.message} confirm={alertInfo.callback} showCancelButton={false} />
+
         </>
     )
 };
