@@ -6,7 +6,7 @@ import { Appbar } from 'react-native-paper';
 import { MainLayout } from '../components/layouts/MainLayout';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import { Image, View } from 'react-native';
-import logo1 from "../assets/logo.png";
+import logo1 from "../assets/logo2.png";
 import { styles } from '../styles';
 
 

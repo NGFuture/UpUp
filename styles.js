@@ -81,5 +81,15 @@ export const styles = StyleSheet.create({
         borderRadius: 100,
         padding: 0,
     },
+
+    //Test page
+    testTitle: {
+        paddingLeft: 15,
+        paddingTop: 15,
+        paddingRight: 15,
+        paddingBottom: 3,
+        color: "#70B6E4",
+        // margin: 20,
+    }
 });
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Text, View, FlatList } from "react-native";
-import { Button } from "react-native-paper";
+import { View, FlatList } from "react-native";
+import { Button, Text } from "react-native-paper";
 import { useAuthContext } from "../components/AuthContext";
 import { useData } from "../components/DataContext";
 import Question from "../components/questions/Question";
@@ -52,7 +52,7 @@ const Test = ({ navigation, route }) => {
             const data = await response.json();
             if (data.item) {
                 getQuizSet();
-                openAlert("great job, look what is next", () => {
+                openAlert("Well done! Ready for your next challenge? See what's next!", () => {
                     navigation.navigate('Home');
                 });
             } else {
@@ -70,9 +70,13 @@ const Test = ({ navigation, route }) => {
             const notAnswered = questions.map((item, index) => {
                 if (userChoices.hasOwnProperty(item._id) === false) return index + 1;
             }).filter(Boolean);
-            let singleOrPlural = 'question #';
-            if (notAnswered.length > 1) { singleOrPlural = 'questions ##' };
-            openAlert(`Please, answer ${singleOrPlural} ${notAnswered}`);
+            // let singleOrPlural = 'question #';
+            // if (notAnswered.length > 1) { singleOrPlural = 'questions ##' };
+            // openAlert(`Please, answer ${singleOrPlural} ${notAnswered}`);
+            let singleOrPlural = 'Question #';
+            let singleOrPlural2 = 'was';
+            if (notAnswered.length > 1) { singleOrPlural = 'Questions ##', singleOrPlural2 = 'were' };
+            openAlert(`${singleOrPlural} ${notAnswered} ${singleOrPlural2} skipped. Please answer these before submitting. Thank you!`);
         }
     };
     const renderItem = useCallback(({ item, index }) => <Question
@@ -113,7 +117,7 @@ const Test = ({ navigation, route }) => {
     return (
         <>
             {quiz && <View style={{ display: "flex", flex: 1 }}>
-                <Text>{quiz.title}</Text>
+                <Text variant="titleLarge" style={styles.testTitle}>{quiz.title}</Text>
                 <View key="1" style={{ flex: 1, }}>
                     <FlatList
                         style={{ height: "100%" }}
@@ -126,7 +130,7 @@ const Test = ({ navigation, route }) => {
                 </View>
 
                 <View key="2" style={{ padding: 10 }}>
-                    <Button mode='elevated' onPress={onPress} >Submit</Button>
+                    <Button mode='contained-tonal' onPress={onPress} >SUBMIT</Button>
                 </View>
 
             </View>}

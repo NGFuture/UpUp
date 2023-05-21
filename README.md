@@ -39,4 +39,8 @@ The backend for this app is deployed on the following URL:
 
 https://upup-backend.vercel.app
 
-Thank you for using the UpUp React Native App!
+## Credits
+
+Background picture: <a href="https://www.freepik.com/free-photo/top-view-colorful-paper-planes_4388480.htm#query=paper%20planes%20on%20gray%20background&position=4&from_view=search&track=ais">Freepik</a>
+
+# **Thank you for using the UpUp React Native App!**
