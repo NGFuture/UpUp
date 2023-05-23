@@ -8,15 +8,17 @@ import { API_URL } from "../config/url";
 import { styles } from "../styles";
 
 const limit = 5;
+let globalNavigation = null;
 
 const Test = ({ navigation, route }) => {
+    globalNavigation = navigation;
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [userChoices, setUserChoices] = useState({});
     const [page, setPage] = useState(1);
     const { user } = useAuthContext();
-    const { getQuizSet, openAlert } = useData();
- 
+    const { quizSet, getQuizSet, openAlert } = useData();
+
     const getQuiz = async (id) => {
         try {
             const response = await fetch(`${API_URL}/quizzes/${id}`);
@@ -53,7 +55,8 @@ const Test = ({ navigation, route }) => {
             if (data.item) {
                 getQuizSet();
                 openAlert("Well done! Ready for your next challenge? See what's next!", () => {
-                    navigation.navigate('Home');
+
+                    globalNavigation.navigate("Home");
                 });
             } else {
                 openAlert(data?.message || "Result not saved")
@@ -64,15 +67,13 @@ const Test = ({ navigation, route }) => {
     };
 
     const onPress = () => {
-        if (Object.values(userChoices).length === questions.length) {
+        const userChoicesEmpty = Object.values(userChoices).filter(element => Array.isArray(element) && !element.length);
+        if ((Object.values(userChoices).length === questions.length) && !userChoicesEmpty.length) {
             sendResult(quiz._id, userChoices);
         } else {
             const notAnswered = questions.map((item, index) => {
-                if (userChoices.hasOwnProperty(item._id) === false) return index + 1;
+                if ((userChoices.hasOwnProperty(item._id) === false) || (Array.isArray(userChoices[item._id]) && !userChoices[item._id].length)) { return index + 1 };
             }).filter(Boolean);
-            // let singleOrPlural = 'question #';
-            // if (notAnswered.length > 1) { singleOrPlural = 'questions ##' };
-            // openAlert(`Please, answer ${singleOrPlural} ${notAnswered}`);
             let singleOrPlural = 'Question #';
             let singleOrPlural2 = 'was';
             if (notAnswered.length > 1) { singleOrPlural = 'Questions ##', singleOrPlural2 = 'were' };
@@ -93,27 +94,27 @@ const Test = ({ navigation, route }) => {
         getQuestions(route.params.id);
     }, [page]);
 
-   useEffect(
+    useEffect(
         () =>
-          navigation.addListener('beforeRemove', (e) => {
-            if (false) {
-              // If we don't have unsaved changes, then we don't need to do anything
-              return;
-            }
-    
-            // Prevent default behavior of leaving the screen
-            e.preventDefault();
-    
-            // Prompt the user before leaving the screen
-            openAlert(
-                'You have unsaved changes. Are you sure to discard them and leave the screen?',
-                () => navigation.dispatch(e.data.action),
-                true,              
-            );
-          }),
-        [navigation]
-      );
+            navigation.addListener('beforeRemove', (e) => {
+                if (quizSet.quiz_ids.includes(route.params.id)) {
+                    // If we don't have unsaved changes, then we don't need to do anything
+                    return;
+                }
 
+                // Prevent default behavior of leaving the screen
+                e.preventDefault();
+
+                // Prompt the user before leaving the screen
+                openAlert(
+                    'You have unsaved changes. Are you sure to discard them and leave the screen?',
+                    () => navigation.dispatch(e.data.action),
+                    true,
+                );
+            }),
+        [navigation]
+    );
+        console.log({navigate: navigation.navigate});
     return (
         <>
             {quiz && <View style={{ display: "flex", flex: 1 }}>
