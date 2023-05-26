@@ -7,19 +7,19 @@
       "developmentClient": true,
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       }
     },
     "production": {
       "android": {
         "distribution": "store",
-        "buildType": "apk"
+        "buildType": "app-bundle"       
       }
     }
   },
