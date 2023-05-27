@@ -1,6 +1,8 @@
 # React Native App - UpUp
 
-Welcome to the UpUp React Native App! This app is still under construction and it allows you to take preset quizzes. In order to get started, follow the instructions below:
+Hello! Ready for some fun with quizzes? Our UpUp React Native App is available for testing now. Simply get the app from the Google Play Store using this link: https://play.google.com/apps/internaltest/4701683346244663891. 
+
+If you'd rather set it up locally, follow the instructions given below. Let's dive in!
 
 ## Getting Started
 
