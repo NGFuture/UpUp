@@ -1,6 +1,16 @@
-# React Native App - UpUp
+### UpUp React Native App
 
-Hello! Ready for some fun with quizzes? Our UpUp React Native App is available for testing now. Simply get the app from the Google Play Store using this link: https://play.google.com/apps/internaltest/4701683346244663891. 
+Ready for some fun with quizzes? Our UpUp React Native App is now available for testing! We are looking for enthusiastic testers to provide valuable feedback and help us improve the app.
+
+To participate in the testing, please follow these steps:
+
+1. Send us an email at mailtogrigoryeva@gmail.com with the subject line "UpUp App Testing" and include the email associated with your Google Play account on your Android phone.
+
+2. Once we receive your email, we will add you to the testers' list.
+
+3. After you've been added, you can download the app from the Google Play Store using this [Testing Link](https://play.google.com/apps/internaltest/4701683346244663891).
+
+We can't wait for you to try out our app and share your feedback! If you have any questions or need assistance, feel free to reach out to us at mailtogr@gmail.com. Enjoy the quizzes!
 
 If you'd rather set it up locally, follow the instructions given below. Let's dive in!
 
@@ -47,6 +57,6 @@ Background picture: <a href="https://www.freepik.com/free-photo/top-view-colorfu
 
 ## Demonstration
 
-![GIF demostrating application](./assets/UpUp-gif.gif)
+![GIF demostrating application](./assets/UpUp-gif_sm.gif)
 
 # **Thank you for using the UpUp React Native App!**
