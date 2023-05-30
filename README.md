@@ -45,4 +45,8 @@ https://upup-backend.vercel.app
 
 Background picture: <a href="https://www.freepik.com/free-photo/top-view-colorful-paper-planes_4388480.htm#query=paper%20planes%20on%20gray%20background&position=4&from_view=search&track=ais">Freepik</a>
 
+## Demonstration
+
+![GIF demostrating application](./assets/UpUp-gif.gif)
+
 # **Thank you for using the UpUp React Native App!**
