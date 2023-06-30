@@ -1,6 +1,6 @@
 import { NavigationContainer, InitialState } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { MainLayout } from './components/layouts/MainLayout';
 import RootNavigator, { navigationRef } from './navigators/Root';
 import { AuthContextProvider, useAuthContext } from './components/AuthContext';
@@ -10,6 +10,7 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import { useColorScheme } from 'react-native';
+import logo1 from "./assets/logo2.png";
 
 const PrivateScreens = () => {
   return (
@@ -22,8 +23,15 @@ const PrivateScreens = () => {
 
 const ScreensContainer = () => {
   const { user } = useAuthContext();
-  if (!user.loaded) {
-    return <View><Text>User not loaded</Text></View>
+  // if (!user.loaded) {
+  if (true) {
+    return (
+      <View style={{ height: "100%", backgroundColor: "grey", justifyContent: "center", alignItems: "center" }}>
+
+          <Image source={logo1} style={{width: 140, height: 56}}  />
+
+      </View>
+    )
   };
   return (
     <PrivateScreens />
@@ -39,45 +47,45 @@ export default function App() {
       // orange #f16628
       "colors": colorScheme === 'light' ? {
         "primary": "#70B6E4",
-    "onPrimary": "rgb(255, 255, 255)",
-    "primaryContainer": "rgb(200, 230, 255)",
-    "onPrimaryContainer": "rgb(0, 30, 46)",
-    "secondary": "#f16628",
-    "onSecondary": "rgb(255, 255, 255)",
-    "secondaryContainer": "#f16628",
-    "onSecondaryContainer": "rgb(255, 255, 255)",
-    "tertiary": "rgb(0, 110, 31)",
-    "onTertiary": "rgb(255, 255, 255)",
-    "tertiaryContainer": "rgb(111, 255, 122)",
-    "onTertiaryContainer": "rgb(0, 34, 4)",
-    "error": "rgb(186, 26, 26)",
-    "onError": "rgb(255, 255, 255)",
-    "errorContainer": "rgb(255, 218, 214)",
-    "onErrorContainer": "rgb(65, 0, 2)",
-    "background": "rgb(252, 252, 255)",
-    "onBackground": "rgb(25, 28, 30)",
-    "surface": "rgb(252, 252, 255)",
-    "onSurface": "rgb(25, 28, 30)",
-    "surfaceVariant": "rgb(221, 227, 234)",
-    "onSurfaceVariant": "rgb(65, 72, 77)",
-    "outline": "rgb(113, 120, 126)",
-    "outlineVariant": "rgb(193, 199, 206)",
-    "shadow": "rgb(0, 0, 0)",
-    "scrim": "rgb(0, 0, 0)",
-    "inverseSurface": "rgb(46, 49, 51)",
-    "inverseOnSurface": "rgb(240, 240, 243)",
-    "inversePrimary": "rgb(134, 206, 255)",
-    "elevation": {
-      "level0": "transparent",
-      "level1": "rgb(239, 244, 249)",
-      "level2": "#f2f2f2", // top navigation bar color
-      "level3": "rgb(224, 235, 243)",
-      "level4": "rgb(222, 234, 242)",
-      "level5": "rgb(217, 231, 239)"
-    },
-    "surfaceDisabled": "rgba(25, 28, 30, 0.12)",
-    "onSurfaceDisabled": "rgba(25, 28, 30, 0.38)",
-    "backdrop": "rgba(43, 49, 54, 0.4)"
+        "onPrimary": "rgb(255, 255, 255)",
+        "primaryContainer": "rgb(200, 230, 255)",
+        "onPrimaryContainer": "rgb(0, 30, 46)",
+        "secondary": "#f16628",
+        "onSecondary": "rgb(255, 255, 255)",
+        "secondaryContainer": "#f16628",
+        "onSecondaryContainer": "rgb(255, 255, 255)",
+        "tertiary": "rgb(0, 110, 31)",
+        "onTertiary": "rgb(255, 255, 255)",
+        "tertiaryContainer": "rgb(111, 255, 122)",
+        "onTertiaryContainer": "rgb(0, 34, 4)",
+        "error": "rgb(186, 26, 26)",
+        "onError": "rgb(255, 255, 255)",
+        "errorContainer": "rgb(255, 218, 214)",
+        "onErrorContainer": "rgb(65, 0, 2)",
+        "background": "rgb(252, 252, 255)",
+        "onBackground": "rgb(25, 28, 30)",
+        "surface": "rgb(252, 252, 255)",
+        "onSurface": "rgb(25, 28, 30)",
+        "surfaceVariant": "rgb(221, 227, 234)",
+        "onSurfaceVariant": "rgb(65, 72, 77)",
+        "outline": "rgb(113, 120, 126)",
+        "outlineVariant": "rgb(193, 199, 206)",
+        "shadow": "rgb(0, 0, 0)",
+        "scrim": "rgb(0, 0, 0)",
+        "inverseSurface": "rgb(46, 49, 51)",
+        "inverseOnSurface": "rgb(240, 240, 243)",
+        "inversePrimary": "rgb(134, 206, 255)",
+        "elevation": {
+          "level0": "transparent",
+          "level1": "rgb(239, 244, 249)",
+          "level2": "#f2f2f2", // top navigation bar color
+          "level3": "rgb(224, 235, 243)",
+          "level4": "rgb(222, 234, 242)",
+          "level5": "rgb(217, 231, 239)"
+        },
+        "surfaceDisabled": "rgba(25, 28, 30, 0.12)",
+        "onSurfaceDisabled": "rgba(25, 28, 30, 0.38)",
+        "backdrop": "rgba(43, 49, 54, 0.4)"
       } : {
         "primary": "rgb(255, 181, 160)",
         "onPrimary": "rgb(96, 21, 0)",
