@@ -1,7 +1,6 @@
-import { NavigationContainer, InitialState } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { MainLayout } from './components/layouts/MainLayout';
+import { Image, StyleSheet, View } from 'react-native';
 import RootNavigator, { navigationRef } from './navigators/Root';
 import { AuthContextProvider, useAuthContext } from './components/AuthContext';
 import { DataProvider } from './components/DataContext';
@@ -23,7 +22,6 @@ const PrivateScreens = () => {
 
 const ScreensContainer = () => {
   const { user } = useAuthContext();
-  // if (!user.loaded) {
   if (true) {
     return (
       <View style={{ height: "100%", backgroundColor: "grey", justifyContent: "center", alignItems: "center" }}>
