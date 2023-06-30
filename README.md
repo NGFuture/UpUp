@@ -10,7 +10,7 @@ To participate in the testing, please follow these steps:
 
 3. After you've been added, you can download the app from the Google Play Store using this [Testing Link](https://play.google.com/apps/internaltest/4701683346244663891).
 
-We can't wait for you to try out our app and share your feedback! If you have any questions or need assistance, feel free to reach out to us at mailtogr@gmail.com. Enjoy the quizzes!
+We can't wait for you to try out our app and share your feedback! If you have any questions or need assistance, feel free to reach out to us at  mailtogrigoryeva@gmail.com. Enjoy the quizzes!
 
 If you'd rather set it up locally, follow the instructions given below. Let's dive in!
 
