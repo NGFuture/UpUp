@@ -22,7 +22,7 @@ const PrivateScreens = () => {
 
 const ScreensContainer = () => {
   const { user } = useAuthContext();
-  if (true) {
+  if (!user.loaded) {
     return (
       <View style={{ height: "100%", backgroundColor: "grey", justifyContent: "center", alignItems: "center" }}>
 
